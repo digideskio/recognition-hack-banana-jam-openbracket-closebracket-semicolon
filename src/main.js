@@ -2,7 +2,7 @@ const twitter = require('./twitter');
 const cognition = require('./cognition');
 
 const responses = {
-	anger: [ "angry!" ],
+	anger: [ "angry!", "mad", "irate",  "annoyed", "cross", "vexed", "irritated", "indignant", "irked"; ],
 	contempt: [ "contempt!" ],
 	disgust: [ "disgusted!" ],
 	fear: [ "scared" ],
@@ -41,7 +41,7 @@ twitter.onTweet((tweet) => {
 			mood = 'noface';
 			console.log('cognition couldnt find a face');
 		}
-		
+
 		const idx = Math.floor((Math.random() * Object.keys(responses[mood]).length));
 		if (mood == 'noface'){
 			message = responses[mood][idx] + " @user";
