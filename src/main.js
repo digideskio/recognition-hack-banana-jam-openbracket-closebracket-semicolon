@@ -2,14 +2,14 @@ const twitter = require('./twitter');
 const cognition = require('./cognition');
 
 const responses = {
-	anger: [ "you look angry!" ],
-	contempt: [ "you look contempt!" ],
-	disgust: [ "you look disgusted!" ],
-	fear: [ "you look scared" ],
-	happiness: [ "you look happy!" ],
-	neutral: [ "you look neutral" ],
-	surprise: [ "you look surprised" ],
-	sadness: [ "you look sad" ],
+	anger: [ "you look angry! @user" ],
+	contempt: [ "you look contempt! @user" ],
+	disgust: [ "you look disgusted! @user" ],
+	fear: [ "you look scared @user" ],
+	happiness: [ "you look happy! @user" ],
+	neutral: [ "you look neutral @user" ],
+	surprise: [ "you look surprised @user" ],
+	sadness: [ "you look sad @user" ],
 };
 
 function biggestScore(scores){
@@ -25,6 +25,7 @@ function biggestScore(scores){
 
 twitter.onTweet((tweet) => {
 	let url = tweet.entities.media[0].media_url_https;
+	let screenName = tweet.user.screen_name;
 	console.log('got media URL', url);
 	cognition.recognize(url).then((response) => {
 		console.log('got cognition response', response);
@@ -32,9 +33,10 @@ twitter.onTweet((tweet) => {
 		const mood = biggestScore(response[0].scores);
 		console.log('recognised mood as', mood);
 		const idx = Math.floor((Math.random() * Object.keys(responses[mood]).length));
-		const message = responses[mood][idx];
+		const message = responses[mood][idx].split('@user').join('@'+screenName);
 		console.log('tweeting', message);
-		twitter.tweet({replyTo: tweet.id, message}, function(err){
+		console.log('replying to tweet with ID',tweet.id_str);
+		twitter.tweet({replyTo: tweet.id_str, message}, function(err){
 			if (err){
 				console.error(err);
 			} else {
