@@ -2,9 +2,14 @@ const twitter = require('./twitter');
 const cognition = require('./cognition');
 
 const responses = {
-	angry: [],
-	sad: [],
-	happy: []
+	anger: [ "you look angry!" ],
+	contempt: [ "you look contempt!" ],
+	disgust: [ "you look disgusted!" ],
+	fear: [ "you look scared" ],
+	happiness: [ "you look happy!" ],
+	neutral: [ "you look neutral" ],
+	surprise: [ "you look surprised" ],
+	sadness: [ "you look sad" ],
 };
 
 function biggestScore(scores){
@@ -19,15 +24,17 @@ function biggestScore(scores){
 }
 
 twitter.onTweet((tweet) => {
-	console.log('got tweet', tweet);
-	let url = tweet.media.url;
-	cognition.recognize({mediaUrl: url}).then((response) => {
+	let url = tweet.entities.media[0].media_url_https;
+	console.log('got media URL', url);
+	cognition.recognize(url).then((response) => {
 		console.log('got cognition response', response);
+		console.log('got cognition scores', response[0].scores);
 		const mood = biggestScore(response[0].scores);
-		const idx = Math.floor((Math.random() * responses[mood].length));
-		const message = responses[idx];
+		console.log('recognised mood as', mood);
+		const idx = Math.floor((Math.random() * Object.keys(responses[mood]).length));
+		const message = responses[mood][idx];
 		console.log('tweeting', message);
-		twitter.tweet({replyTo: tweet.id, text: message}, function(err){
+		twitter.tweet({replyTo: tweet.id, message}, function(err){
 			if (err){
 				console.error(err);
 			} else {
@@ -36,3 +43,5 @@ twitter.onTweet((tweet) => {
 		});
 	});
 });
+
+console.log('@semicolonbot activated, god help you');

@@ -13,18 +13,14 @@ var client = new Twitter({
 client.stream('user', {replies: 'all'}, function(stream) {
 
 	stream.on('data', function(data) {
-		// reply
-
 		if (data.event){
 			console.log("[Twitter]",'got event', data.event);
 		} else if (data.friends){
 			console.log("[Twitter]",'Got friends list', data.friends);
 		} else if (data.user && (data.user.id != config.user_id)){
-			if (data.in_reply_to_user_id && data.in_reply_to_user_id == config.user_id){
-				cb(data);
-			}
+			cb(data);
 		} else {
-			//console.log("[Twitter]",'Got unhandled case', data);
+			console.log("[Twitter]",'Got unhandled case', data);
 		}
 
 	});
@@ -37,6 +33,7 @@ client.stream('user', {replies: 'all'}, function(stream) {
 
 function tweet({message, replyTo}, callback){
 	if (client){
+		console.log('tweeting',  {status: message, in_reply_to_status_id: replyTo});
 		client.post('statuses/update', {status: message, in_reply_to_status_id: replyTo},  function(error, theTweet, response){
 			if(error) {
 				callback(error);
