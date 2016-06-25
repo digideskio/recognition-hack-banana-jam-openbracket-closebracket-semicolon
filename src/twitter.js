@@ -1,6 +1,6 @@
 // require twitter npm module
 
-let cb = () => {}
+let cb = () => {};
 
 // twitter.on('tweet', (tweet) => cb(tweet))
 
@@ -13,4 +13,4 @@ module.exports = {
 	tweet: () => {
 
 	}
-}
+};
