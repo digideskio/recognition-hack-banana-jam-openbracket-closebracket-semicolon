@@ -5,7 +5,7 @@
 
 Twitter bot which analyses the images sent to it using the [Microsoft Congnition Emotion API](https://www.microsoft.com/cognitive-services/en-us/emotion-api) and sends (hopefully) appropriate responses.
 
-Built at (Re:cognition Hack 2016)[https://www.eventbrite.co.uk/e/recognition-tickets-25574579255].
+Built at [Re:cognition Hack 2016](https://www.eventbrite.co.uk/e/recognition-tickets-25574579255).
 
 # Installation
 
