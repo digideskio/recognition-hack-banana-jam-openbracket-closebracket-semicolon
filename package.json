@@ -1,0 +1,19 @@
+{
+  "name": "recognition-hack-banana-jam-openbracket-closebracket-semicolon",
+  "version": "1.0.0",
+  "description": "aw yea",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/joshbalfour/recognition-hack-banana-jam-openbracket-closebracket-semicolon.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/joshbalfour/recognition-hack-banana-jam-openbracket-closebracket-semicolon/issues"
+  },
+  "homepage": "https://github.com/joshbalfour/recognition-hack-banana-jam-openbracket-closebracket-semicolon#readme"
+}
