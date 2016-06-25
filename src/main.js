@@ -17,6 +17,7 @@ function biggestScore(scores){
 	let mood;
 	for (var i in scores){
 		if (scores[i] > biggest){
+			biggest = scores[i];
 			mood = i;
 		}
 	}
