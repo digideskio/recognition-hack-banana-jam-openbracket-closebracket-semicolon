@@ -2,7 +2,7 @@ const twitter = require('./twitter');
 const cognition = require('./cognition');
 
 const responses = {
-	anger: [ "angry!", "mad", "irate",  "annoyed", "cross", "vexed", "irritated", "indignant", "irked"; ],
+	anger: [ "angry!", "mad", "irate",  "annoyed", "cross", "vexed", "irritated", "indignant", "irked" ],
 	contempt: [ "contempt!" ],
 	disgust: [ "disgusted!" ],
 	fear: [ "scared" ],
