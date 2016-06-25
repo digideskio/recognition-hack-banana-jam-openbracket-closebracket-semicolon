@@ -19,11 +19,20 @@ function biggestScore(scores){
 }
 
 twitter.onTweet((tweet) => {
+	console.log('got tweet', tweet);
 	let url = tweet.media.url;
 	cognition.recognize({mediaUrl: url}).then((response) => {
+		console.log('got cognition response', response);
 		const mood = biggestScore(response[0].scores);
 		const idx = Math.floor((Math.random() * responses[mood].length));
 		const message = responses[idx];
-		twitter.tweet({replyTo: tweet.id, text: message});
+		console.log('tweeting', message);
+		twitter.tweet({replyTo: tweet.id, text: message}, function(err){
+			if (err){
+				console.error(err);
+			} else {
+				console.log('tweeted!');
+			}
+		});
 	});
 });
