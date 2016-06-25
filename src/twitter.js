@@ -1,6 +1,8 @@
 var Twitter = require('twitter');
 let cb = () => {};
 
+var config = require('../config');
+
 var client = new Twitter({
 	consumer_key: config.consumer_key,
 	consumer_secret: config.consumer_secret,
