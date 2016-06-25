@@ -10,6 +10,7 @@ const responses = {
 	neutral: [ "neutral" ],
 	surprise: [ "surprised" ],
 	sadness: [ "sad" ],
+	noface: [ "I couldn't see anyone in that picture" ]
 };
 
 function biggestScore(scores){
@@ -30,12 +31,23 @@ twitter.onTweet((tweet) => {
 	console.log('got media URL', url);
 	cognition.recognize(url).then((response) => {
 		console.log('got cognition response', response);
-		console.log('got cognition scores', response[0].scores);
-		const mood = biggestScore(response[0].scores);
-		console.log('recognised mood as', mood);
+		let mood;
+		let message;
+		if (response[0]){
+			console.log('got cognition scores', response[0].scores);
+			mood = biggestScore(response[0].scores);
+			console.log('recognised mood as', mood);
+		} else {
+			mood = 'noface';
+			console.log('cognition couldnt find a face');
+		}
+		
 		const idx = Math.floor((Math.random() * Object.keys(responses[mood]).length));
-
-		let message = "you look " + responses[mood][idx] + " @user";
+		if (mood == 'noface'){
+			message = responses[mood][idx] + " @user";
+		} else {
+			message = "you look " + responses[mood][idx] + " @user";
+		}
 		message = message.split('@user').join('@'+screenName);
 		console.log('tweeting', message);
 		console.log('replying to tweet with ID',tweet.id_str);
