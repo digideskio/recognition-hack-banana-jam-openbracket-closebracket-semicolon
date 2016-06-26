@@ -27,3 +27,6 @@ Built at [Re:cognition Hack 2016](https://www.eventbrite.co.uk/e/recognition-tic
 
 # Running
 * Run `node .`
+
+# Running also following a hashtag
+* Run `node . hashtagWithoutHash`
