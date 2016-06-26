@@ -16,29 +16,50 @@ let args = {replies: 'all'};
 if (process.argv[2]) {
 	endpoint = 'statuses/filter';
 	args = {track: '#'+process.argv[2]};
-	console.log('filtering for tweets with hashtag', args.track);
+	console.log('also filtering for tweets with hashtag', args.track);
+
+	client.stream(endpoint, args, function(stream) {
+
+		stream.on('data', function(data) {
+			if (data.event){
+				console.log("[Twitter]",'got event', data.event);
+			} else if (data.friends){
+				console.log("[Twitter]",'Got friends list', data.friends);
+			} else if (data.user && (data.user.id != config.user_id)){
+				cb(data);
+			} else {
+				// console.log("[Twitter]",'Got unhandled case', data);
+			}
+
+		});
+
+		stream.on('error', function(error) {
+			console.error(error);
+		});
+
+	});
 }
 
-client.stream(endpoint, args, function(stream) {
+client.stream('user', {replies: 'all'}, function(stream) {
 
-	stream.on('data', function(data) {
-		if (data.event){
-			console.log("[Twitter]",'got event', data.event);
-		} else if (data.friends){
-			console.log("[Twitter]",'Got friends list', data.friends);
-		} else if (data.user && (data.user.id != config.user_id)){
-			cb(data);
-		} else {
-			console.log("[Twitter]",'Got unhandled case', data);
-		}
+		stream.on('data', function(data) {
+			if (data.event){
+				console.log("[Twitter]",'got event', data.event);
+			} else if (data.friends){
+				console.log("[Twitter]",'Got friends list', data.friends);
+			} else if (data.user && (data.user.id != config.user_id)){
+				cb(data);
+			} else {
+				// console.log("[Twitter]",'Got unhandled case', data);
+			}
+
+		});
+
+		stream.on('error', function(error) {
+			console.error(error);
+		});
 
 	});
-
-	stream.on('error', function(error) {
-		console.error(error);
-	});
-
-});
 
 function tweet({message, replyTo}, done){
 	if (client){
