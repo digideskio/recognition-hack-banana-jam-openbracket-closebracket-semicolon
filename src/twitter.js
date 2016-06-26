@@ -26,7 +26,7 @@ if (process.argv[2]) {
 			} else if (data.friends){
 				console.log("[Twitter]",'Got friends list', data.friends);
 			} else if (data.user && (data.user.id != config.user_id)){
-				cb(data);
+				cb(data, false);
 			} else {
 				// console.log("[Twitter]",'Got unhandled case', data);
 			}
@@ -48,7 +48,7 @@ client.stream('user', {replies: 'all'}, function(stream) {
 			} else if (data.friends){
 				console.log("[Twitter]",'Got friends list', data.friends);
 			} else if (data.user && (data.user.id != config.user_id)){
-				cb(data);
+				cb(data, true);
 			} else {
 				// console.log("[Twitter]",'Got unhandled case', data);
 			}
