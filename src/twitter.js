@@ -10,7 +10,16 @@ var client = new Twitter({
 	access_token_secret: config.access_token_secret
 });
 
-client.stream('user', {replies: 'all'}, function(stream) {
+let endpoint = 'user';
+let args = {replies: 'all'};
+
+if (process.argv[2]) {
+	endpoint = 'statuses/filter';
+	args = {track: '#'+process.argv[2]};
+	console.log('filtering for tweets with hashtag', args.track);
+}
+
+client.stream(endpoint, args, function(stream) {
 
 	stream.on('data', function(data) {
 		if (data.event){
@@ -20,7 +29,7 @@ client.stream('user', {replies: 'all'}, function(stream) {
 		} else if (data.user && (data.user.id != config.user_id)){
 			cb(data);
 		} else {
-			// console.log("[Twitter]",'Got unhandled case', data);
+			console.log("[Twitter]",'Got unhandled case', data);
 		}
 
 	});
