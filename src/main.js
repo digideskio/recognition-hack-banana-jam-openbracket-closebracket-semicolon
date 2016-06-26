@@ -25,7 +25,7 @@ function biggestScore(scores){
 	return mood;
 }
 
-twitter.onTweet((tweet) => {
+twitter.onTweet((tweet, noBlankTweet) => {
 	let url = tweet.entities.media[0].media_url_https;
 	let screenName = tweet.user.screen_name;
 	console.log('got media URL', url);
@@ -44,20 +44,24 @@ twitter.onTweet((tweet) => {
 
 		const idx = Math.floor((Math.random() * Object.keys(responses[mood]).length));
 		if (mood == 'noface'){
-			message = responses[mood][idx] + " @user";
+			if (!noBlankTweet){
+				message = responses[mood][idx] + " @user";
+			}
 		} else {
 			message = "you look " + responses[mood][idx] + " @user";
 		}
-		message = message.split('@user').join('@'+screenName);
-		console.log('tweeting', message);
-		console.log('replying to tweet with ID',tweet.id_str);
-		twitter.tweet({replyTo: tweet.id_str, message}, function(err){
-			if (err){
-				console.error(err);
-			} else {
-				console.log('tweeted!');
-			}
-		});
+		if (message){
+			message = message.split('@user').join('@'+screenName);
+			console.log('tweeting', message);
+			console.log('replying to tweet with ID',tweet.id_str);
+			twitter.tweet({replyTo: tweet.id_str, message}, function(err){
+				if (err){
+					console.error(err);
+				} else {
+					console.log('tweeted!');
+				}
+			});
+		}
 	});
 });
 
